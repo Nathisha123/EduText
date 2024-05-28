@@ -1,4 +1,3 @@
-const crypto = require('crypto');
 const mailSender = require('../utils/mailSender');
 const { buyCourseEmailTemplate } = require('../mail/templates/courseEnrollmentEmail');
 require('dotenv').config();
@@ -8,37 +7,59 @@ const Course = require('../models/course');
 const CourseProgress = require("../models/courseProgress")
 
 
-const { default: mongoose } = require('mongoose')
 
 
 exports.sendCourseBuyEmail = async (req, res) => {
-    const { courseId, firstName, lastName, } = req.body;
-    const { email, id } = req.user;
-
-    if (!courseId || !id) {
-        return res.status(400).json({ success: false, message: "Please provide all the fields" });
-    }
-
     try {
+
+        const { courseId, firstName, lastName, } = req.body;
+        const { email, id } = req.user;
+
+        if (!courseId || !id) {
+            return res.status(400).json({ success: false, message: "Please provide all the fields" });
+        }
+
+
+        const enrolledCourse = await Course.findOneAndUpdate(
+            { _id: courseId },
+            { $push: { studentsEnrolled: id } },
+            { new: true },
+        )
+
+        if (!enrolledCourse) {
+            return res.status(500).json({ success: false, message: "Course not Found" });
+        }
+        // console.log("Updated course: ", enrolledCourse)
+
+        // Initialize course preogres with 0 percent
+        const courseProgress = await CourseProgress.create({
+            courseID: courseId,
+            userId: id,
+            completedVideos: [],
+        })
+
+
         // find student
-        const enrolledStudent = await User.findById(id);
-        // console.log("enrolledStudent = ", enrolledStudent)
+        // Find the student and add the course to their list of enrolled courses
+        const enrolledStudent = await User.findByIdAndUpdate(
+            id,
+            {
+                $push: {
+                    courses: courseId,
+                    courseProgress: courseProgress._id,
+                },
+            },
+            { new: true }
+        )
 
-        // find course
-        const courseDetails = await Course.findById(courseId)
-        // console.log("courseDetails = ", courseDetails)
-        const { courseName, instructor } = courseDetails
 
-        // find instructor
-        // const instructorDetails = await User.findById(instructor);
-        // console.log("instructorDetails = ", instructorDetails)
-        // const { firstName, lastName, email } = instructorDetails
 
+        const { courseName, instructor } = enrolledCourse
 
         await mailSender(
             enrolledStudent.email,
-            `Course Registered successfully`,
-            buyCourseEmailTemplate(`${enrolledStudent.firstName}`, `${enrolledStudent.lastName}`, courseName)
+            Course Registered successfully,
+            buyCourseEmailTemplate(${enrolledStudent.firstName}, ${enrolledStudent.lastName}, courseName)
         )
 
         return res.status(200).json({
@@ -51,4 +72,3 @@ exports.sendCourseBuyEmail = async (req, res) => {
         return res.status(500).json({ success: false, message: "Could not send email" })
     }
 }
-
