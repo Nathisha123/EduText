@@ -3,9 +3,9 @@ export const reviewData = [
         "_id": "6570cf4bc59e68f449f7d99a",
         "user": {
             "_id": "65545a90045f9b39e0fd790d",
-            "firstName": "Rajesh",
-            "lastName": "Patil",
-            "email": "rajeshpatil562@gmail.com",
+            "firstName": "Joe",
+            "lastName": "Doe",
+            "email": "joedoe@gmail.com",
             "image": "https://res.cloudinary.com/dfykppt3d/image/upload/v1700075947/%27StudyNotion%27/pzqeyhosfmcwuju2vjfc.jpg"
         },
         "rating": "5",
@@ -19,9 +19,9 @@ export const reviewData = [
         "_id": "6633fb8e5f82af56fb89c37c",
         "user": {
             "_id": "6633f68c5f82af56fb89c2cf",
-            "firstName": "Rahul",
-            "lastName": "Shinde",
-            "email": "rahulpatil@gmail.com",
+            "firstName": "Smith",
+            "lastName": "Lin",
+            "email": "smith@gmail.com",
             "image": "https://api.dicebear.com/5.x/initials/svg?seed=Rahul kumar"
         },
         "rating": "5",
@@ -35,9 +35,9 @@ export const reviewData = [
         "_id": "663b8de15df8087dc3b59a4d",
         "user": {
             "_id": "65545a90045f9b39e0fd790d",
-            "firstName": "Om",
-            "lastName": "Gaikwad",
-            "email": "om21@gmail.com",
+            "firstName": "Jade",
+            "lastName": "Smith",
+            "email": "jadesmith@gmail.com",
             "image": "https://res.cloudinary.com/dfykppt3d/image/upload/v1700075947/%27StudyNotion%27/pzqeyhosfmcwuju2vjfc.jpg"
         },
         "rating": "3",
