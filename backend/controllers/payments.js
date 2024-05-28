@@ -58,8 +58,8 @@ exports.sendCourseBuyEmail = async (req, res) => {
 
         await mailSender(
             enrolledStudent.email,
-            Course Registered successfully,
-            buyCourseEmailTemplate(${enrolledStudent.firstName}, ${enrolledStudent.lastName}, courseName)
+           "Course Registered successfully" ,
+            buyCourseEmailTemplate('${enrolledStudent.firstName}', '${enrolledStudent.lastName}', courseName)
         )
 
         return res.status(200).json({
