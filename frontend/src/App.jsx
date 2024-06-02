@@ -36,6 +36,12 @@ import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import { ACCOUNT_TYPE } from "./utils/constants";
 
 import { HiArrowNarrowUp } from "react-icons/hi";
+import CreateCategory from "./components/core/Dashboard/CreateCategory";
+
+
+import AllStudents from './components/core/Dashboard/AllStudents';
+import AllInstructors from './components/core/Dashboard/AllInstructors';
+
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -148,6 +154,16 @@ function App() {
         >
           <Route path="dashboard/my-profile" element={<MyProfile />} />
           <Route path="dashboard/Settings" element={<Settings />} />
+
+          {/* Route only for Admin */}
+          {/* create category, all students, all instructors */}
+          {user?.accountType === ACCOUNT_TYPE.ADMIN && (
+            <>
+              <Route path="dashboard/create-category" element={<CreateCategory />} />
+              <Route path="dashboard/all-students" element={<AllStudents />} />
+              <Route path="dashboard/all-instructors" element={<AllInstructors />} />
+            </>
+          )}
 
           {user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <>

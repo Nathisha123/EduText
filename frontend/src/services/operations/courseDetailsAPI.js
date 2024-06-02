@@ -22,7 +22,10 @@ const {
   GET_FULL_COURSE_DETAILS_AUTHENTICATED,
   CREATE_RATING_API,
   LECTURE_COMPLETION_API,
+  CREATE_NEW_CATEGORY,
+  DELETE_CATEGORY,
 } = courseEndpoints
+
 
 
 
@@ -421,4 +424,48 @@ export const createRating = async (data, token) => {
   }
   toast.dismiss(toastId)
   return success
+}
+
+// ================ createNewCategory ================
+export const createNewCategory = async (name, description, token) => {
+  const toastId = toast.loading("Loading...")
+
+  try {
+    const response = await apiConnector("POST", CREATE_NEW_CATEGORY, { name, description }, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("CREATE_NEW_CATEGORY RESPONSE............", response)
+    if (!response?.data?.success) {
+      console.log("Could Not create new category")
+    }
+
+    toast.success("New Category Created !")
+  } catch (error) {
+    console.log("CREATE_NEW_CATEGORY API ERROR............", error)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId)
+}
+
+
+
+// ================ delete Category ================
+export const deleteCategory = async (categoryId, token) => {
+  const toastId = toast.loading("Loading...")
+
+  try {
+    const response = await apiConnector("DELETE", DELETE_CATEGORY, { categoryId }, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("DELETE_CATEGORY RESPONSE............", response)
+    if (!response?.data?.success) {
+      console.log("Could Not delete category")
+    }
+
+    toast.success("Category Deleted !")
+  } catch (error) {
+    console.log("DELETE_CATEGORY API ERROR............", error)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId)
 }
